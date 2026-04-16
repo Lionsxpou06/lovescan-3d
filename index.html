@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>LoveScan 3D - Text & Photo Tsunami</title>
+    <title>LoveScan 3D -❤️ Tsunami</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <style>
         body { margin: 0; background: #000; overflow: hidden; font-family: sans-serif; cursor: none; }
@@ -19,19 +19,22 @@
             color: white; font-size: 14px; letter-spacing: 2px;
         }
 
+        /* GANTI: Tema warna UI diubah menjadi MERAH NEON */
         .scan-glow {
-            color: #fff; text-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #ff00de;
-            animation: textGlow 1.5s ease-in-out infinite alternate;
+            color: #ff0000; /* Merah */
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 30px #ff0000;
+            animation: textGlowRed 1.5s ease-in-out infinite alternate;
         }
 
         .footer {
-            padding: 20px; color: rgba(255, 255, 255, 0.7);
+            padding: 20px; color: rgba(255, 0, 0, 0.7); /* Merah Transparan */
             font-size: 12px; text-align: center; font-style: italic;
         }
 
-        @keyframes textGlow {
-            from { text-shadow: 0 0 5px #fff, 0 0 10px #ff00de, 0 0 15px #ff00de; }
-            to { text-shadow: 0 0 10px #fff, 0 0 20px #00ffff, 0 0 30px #00ffff; }
+        /* GANTI: Animasi Glow Merah */
+        @keyframes textGlowRed {
+            from { text-shadow: 0 0 5px #fff, 0 0 10px #ff0000, 0 0 15px #ff0000; }
+            to { text-shadow: 0 0 10px #fff, 0 0 20px #880000, 0 0 30px #ff0000; }
         }
     </style>
 </head>
@@ -43,39 +46,49 @@
             <div class="scan-glow">LOVESCAN 3D ACTIVE</div>
             <div>[4G] 9:41</div>
         </div>
-        <div class="footer">> Interactive 3D World <</div>
+        <div class="footer">> Interactive ❤️ World <</div>
     </div>
 
     <script>
         let scene, camera, renderer;
-        let allParticles = []; // Wadah untuk teks dan foto
+        let allParticles = []; // Wadah untuk simbol dan foto
         const canvas = document.createElement('canvas');
         const textureLoader = new THREE.TextureLoader();
 
-        // --- KONFIGURASI FOTO ---
-        // Ganti URL di bawah ini dengan URL foto cewek yang kamu inginkan.
-        // Pastikan URL-nya HTTPS dan bisa diakses publik.
+        // --- KONFIGURASI FOTO (Tetap Pakai Link Discord Kamu) ---
         const photoURLs = [
-            'https://media.discordapp.net/attachments/903139217201328182/1494223776492163143/WhatsApp_Image_2026-04-16_at_13.29.27.jpeg?ex=69e1d3d5&is=69e08255&hm=08e256373050b3ad12cb9e57d8f31a2d5755503b921d76889a0dd5f99eff90ec&=&format=webp&width=1145&height=859', // Contoh Avatar 1
-            'https://media.discordapp.net/attachments/903139217201328182/1494223776848674836/WhatsApp_Image_2026-04-16_at_13.29.29.jpeg?ex=69e1d3d5&is=69e08255&hm=8557b83e3071211e04bc9e1101ec897a5b87672b45efae0dd819e0776b0b97f5&=&format=webp&width=1145&height=859', // Contoh Avatar 2
-            'https://media.discordapp.net/attachments/903139217201328182/1494223777267978240/WhatsApp_Image_2026-04-16_at_13.29.31.jpeg?ex=69e1d3d5&is=69e08255&hm=7a9494b0537833c9611258292265bf585c551cd03801da1ccb6cde4524900569&=&format=webp&width=1145&height=859'  // Contoh Avatar 3
+            'https://media.discordapp.net/attachments/903139217201328182/1494223776492163143/WhatsApp_Image_2026-04-16_at_13.29.27.jpeg?ex=69e1d3d5&is=69e08255&hm=08e256373050b3ad12cb9e57d8f31a2d5755503b921d76889a0dd5f99eff90ec&=&format=webp&width=1145&height=859',
+            'https://media.discordapp.net/attachments/903139217201328182/1494223776848674836/WhatsApp_Image_2026-04-16_at_13.29.29.jpeg?ex=69e1d3d5&is=69e08255&hm=8557b83e3071211e04bc9e1101ec897a5b87672b45efae0dd819e0776b0b97f5&=&format=webp&width=1145&height=859',
+            'https://media.discordapp.net/attachments/903139217201328182/1494223777267978240/WhatsApp_Image_2026-04-16_at_13.29.31.jpeg?ex=69e1d3d5&is=69e08255&hm=7a9494b0537833c9611258292265bf585c551cd03801da1ccb6cde4524900569&=&format=webp&width=1145&height=859'
         ];
         let photoTextures = [];
 
-        // Fungsi membuat tekstur teks neon (sama seperti sebelumnya)
-        function createTextTexture(text) {
+        // GANTI: Fungsi membuat tekstur SIMBOL HATI NEON MERAH
+        function createHeartTexture() {
             const size = 128;
-            canvas.width = size * 4;
+            canvas.width = size;
             canvas.height = size;
             const ctx = canvas.getContext('2d');
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ffffff';
-            ctx.font = 'bold 64px sans-serif';
+            
+            // Gunakan Unicode Simbol Hati Padat ❤️
+            const heartText = '❤️'; 
+            
             ctx.textAlign = 'center';
             ctx.textBaseline = 'middle';
-            ctx.shadowColor = '#00ffff'; 
-            ctx.shadowBlur = 15;
-            ctx.fillText(text, canvas.width/2, canvas.height/2);
+            
+            // GANTI: Font ukuran besar dan warna MERAH NEON
+            ctx.font = 'bold 90px sans-serif'; 
+            ctx.fillStyle = '#ff0000'; // Warna dasar Merah
+            
+            // Tambah Glow Neon Merah (Kunci efek bersinar)
+            ctx.shadowColor = '#ff3333'; // Merah Muda untuk Glow
+            ctx.shadowBlur = 20;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+            
+            ctx.fillText(heartText, canvas.width/2, canvas.height/2);
+            
             return new THREE.CanvasTexture(canvas);
         }
 
@@ -88,8 +101,8 @@
 
             camera.position.z = 10;
 
-            // 1. Muat Tekstur Teks
-            const loveTexture = createTextTexture('I love you');
+            // 1. GANTI: Muat Tekstur SIMBOL HATI
+            const heartTexture = createHeartTexture();
 
             // 2. Muat Tekstur Foto (Asinkron)
             photoURLs.forEach(url => {
@@ -98,25 +111,24 @@
                 });
             });
 
-            // 3. Spawn Awal (Hanya teks dulu, foto menyusul saat siap)
-            for (let i = 0; i < 70; i++) {
-                spawnEntity(loveTexture, 'text');
+            // 3. Spawn Awal (Hanya simbol hati dulu)
+            for (let i = 0; i < 90; i++) {
+                spawnEntity(heartTexture, 'text'); // Teks di sini sekarang berarti simbol hati
             }
 
             // Interval untuk spawn foto secara bertahap
             const photoInterval = setInterval(() => {
-                if (photoTextures.length > 0 && allParticles.length < 150) {
+                if (photoTextures.length > 0 && allParticles.length < 180) {
                     const randomPhoto = photoTextures[Math.floor(Math.random() * photoTextures.length)];
                     spawnEntity(randomPhoto, 'photo');
                 }
-                if (allParticles.length >= 150) clearInterval(photoInterval);
-            }, 200);
+                if (allParticles.length >= 180) clearInterval(photoInterval);
+            }, 150);
 
             // Tambah entitas saat klik
             window.addEventListener('mousedown', () => {
-                // Spawn 2 teks dan 1 foto
-                spawnEntity(loveTexture, 'text');
-                spawnEntity(loveTexture, 'text');
+                // GANTI: Ledakkan 4 simbol hati dan 1 foto
+                for(let i=0; i<4; i++) spawnEntity(heartTexture, 'text');
                 if (photoTextures.length > 0) {
                     const randomPhoto = photoTextures[Math.floor(Math.random() * photoTextures.length)];
                     spawnEntity(randomPhoto, 'photo');
@@ -130,29 +142,29 @@
             let geometry, material;
 
             if (type === 'text') {
-                geometry = new THREE.PlaneGeometry(3, 0.75);
+                // GANTI: Bentuk geometri diubah jadi KOTAK (1x1) untuk logo hati
+                geometry = new THREE.PlaneGeometry(1.5, 1.5);
                 material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, blending: THREE.AdditiveBlending, depthWrite: false });
             } else {
-                // Foto dibuat sedikit melengkung agar terlihat 3D
                 geometry = new THREE.PlaneGeometry(2, 2.5); 
                 material = new THREE.MeshBasicMaterial({ map: texture, transparent: true, side: THREE.DoubleSide });
             }
 
             const mesh = new THREE.Mesh(geometry, material);
 
-            // Posisi acak di kedalaman (z dari -20 sampai 5)
+            // Posisi acak
             mesh.position.set(
-                (Math.random() - 0.5) * 25,
-                (Math.random() - 0.5) * 18,
+                (Math.random() - 0.5) * 28,
+                (Math.random() - 0.5) * 20,
                 (Math.random() - 0.5) * 25 - 10 
             );
 
             mesh.userData = {
                 type: type,
                 // Kecepatan maju acak
-                velocity: new THREE.Vector3((Math.random() - 0.5) * 0.01, (Math.random() - 0.5) * 0.01, 0.02 + Math.random() * 0.03),
+                velocity: new THREE.Vector3((Math.random() - 0.5) * 0.01, (Math.random() - 0.5) * 0.01, 0.02 + Math.random() * 0.04),
                 // Rotasi acak
-                rotationSpeed: (Math.random() - 0.5) * 0.005
+                rotationSpeed: (Math.random() - 0.5) * 0.008
             };
 
             scene.add(mesh);
@@ -164,7 +176,7 @@
 
             allParticles.forEach(particle => {
                 particle.position.add(particle.userData.velocity); // Gerak maju
-                particle.rotation.z += particle.userData.rotationSpeed; // Rotasi perlahan
+                particle.rotation.z += particle.userData.rotationSpeed; // Rotasi
 
                 // Efek Foto: Buat foto sedikit bergoyang y/x agar terasa dinamis
                 if(particle.userData.type === 'photo') {
@@ -174,8 +186,8 @@
                 // Jika sudah melewati kamera, reset ke posisi belakang
                 if (particle.position.z > camera.position.z + 2) {
                     particle.position.z = -25;
-                    particle.position.x = (Math.random() - 0.5) * 25;
-                    particle.position.y = (Math.random() - 0.5) * 18;
+                    particle.position.x = (Math.random() - 0.5) * 28;
+                    particle.position.y = (Math.random() - 0.5) * 20;
                 }
             });
 
